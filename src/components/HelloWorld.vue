@@ -1,60 +1,71 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router" target="_blank" rel="noopener">router</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-vuex" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+  <a-layout>
+    <b-navbar>
+      <b-container>
+        <b-navbar-brand href="#">
+          中医药知识科普平台
+        </b-navbar-brand>
+        <b-navbar-toggle target="navbar-toggle-collapse">
+          <template #default="{ expanded }">
+            <b-icon v-if="expanded" icon="chevron-bar-up"></b-icon>
+            <b-icon v-else icon="chevron-bar-down"></b-icon>
+          </template>
+        </b-navbar-toggle>
+
+        <a-space>
+          <a-dropdown isnav>
+            <a class="small">
+              <b-avatar variant="primary" text="BV" size="1.7rem"></b-avatar>
+              749976734@qq.com
+            </a>
+            <a-menu slot="overlay">
+              <a-menu-item>
+                <a href="javascript:;">个人中心</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a href="javascript:;">个人设置</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a href="javascript:;">退出登录</a>
+              </a-menu-item>
+            </a-menu>
+          </a-dropdown>
+          <a-dropdown isnav>
+            <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
+              <b-icon icon="globe" scale="1.2rem"></b-icon>
+            </a>
+            <a-menu slot="overlay">
+              <a-menu-item>
+                <a href="javascript:;">English</a>
+              </a-menu-item>
+              <a-menu-item>
+                <a href="javascript:;">中文简体</a>
+              </a-menu-item>
+            </a-menu>
+          </a-dropdown>
+        </a-space>
+      </b-container>
+    </b-navbar>
+    <a-layout-content>
+      <img src="@/assets/banner-en.png" alt="12" />
+      <b-container>
+        123
+      </b-container>
+    </a-layout-content>
+    <a-layout-footer>Footer</a-layout-footer>
+  </a-layout>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
-    msg: String
-  }
-}
+    msg: String,
+  },
+  mounted() {
+    this.$store.dispatch("Login", { username: "tom", password: "4576" });
+  },
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
+<style scoped></style>
