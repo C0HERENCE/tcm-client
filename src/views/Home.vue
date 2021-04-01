@@ -20,14 +20,14 @@
         </div>
         <div class="col-lg-4">
           <img src="../assets/index_tcm.png" height="86" width="86"/>
-          <router-link to="/HerbGuide">
+          <router-link to="/knowledge">
             <h3>{{$t("知识百科")}}</h3>
           </router-link>
           <p>{{$t("index.herb")}}</p>
         </div>
         <div class="col-lg-4">
           <img src="../assets/index_tcm.png" height="86" width="86"/>
-          <router-link to="/HerbGuide">
+          <router-link to="/forum/category">
             <h3>{{$t("交流问答")}}</h3>
           </router-link>
           <p>{{$t("index.herb")}}</p>

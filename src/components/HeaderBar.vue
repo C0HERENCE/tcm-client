@@ -1,14 +1,14 @@
 <template>
   <b-navbar toggleable="lg" >
     <b-container>
-      <b-navbar-brand href="#">中医药知识科普平台</b-navbar-brand>
+      <b-navbar-brand to="/">中医药知识科普平台</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="mr-auto" is-nav>
           <b-nav-item href="#">中医文化</b-nav-item>
-          <b-nav-item href="#">知识百科</b-nav-item>
-          <b-nav-item href="#">交流问答</b-nav-item>
+          <b-nav-item to="/knowledge">知识百科</b-nav-item>
+          <b-nav-item to="/forum/category">交流问答</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav>
           <b-nav-item>
