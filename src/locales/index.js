@@ -3,7 +3,7 @@ import VueI18n from 'vue-i18n'
 import storage from 'store'
 
 // default lang
-import enUS from './lang/en-US/user'
+import enUS from './lang/en-US'
 
 Vue.use(VueI18n)
 

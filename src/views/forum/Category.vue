@@ -5,9 +5,20 @@
         <CategoryList></CategoryList>
       </b-col>
       <b-col cols="6">
-        <a-card>
-          <p>card content</p>
-          <p>card content</p>
+        <a-input-search
+            placeholder="输入关键词搜索帖子"
+            enter-button="搜索"
+            size="large"
+            @search="onSearch"
+        />
+        <a-card class="my-1" size="small">
+          <a-list item-layout="horizontal" :data-source="data">
+            <a-list-item slot="renderItem" slot-scope="item">
+              <a-list-item-meta>
+                <a slot="title" href="#">[置顶] {{ item.title }}</a>
+              </a-list-item-meta>
+            </a-list-item>
+          </a-list>
         </a-card>
         <a-menu slot="title" mode="horizontal">
           <a-menu-item key="all"> 所有</a-menu-item>
@@ -44,15 +55,23 @@ import AboutMe from "@/components/forum/AboutMe";
 const listData = [];
 for (let i = 0; i < 23; i++) {
   listData.push({
-    href: 'https://www.antdv.com/',
-    title: `ant design vue part ${i}`,
+    href: '#',
+    title: `中医药知识科普 帖子${i+1}`,
     avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
     description:
-        'Ant Design, a design m.',
+        '10分钟前',
     content:
-        'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+        '文章内容，求助内容，科普内容的梗概...',
   });
 }
+const data = [
+  {
+    title: '置顶帖子标题 1',
+  },
+  {
+    title: '置顶帖子标题 2',
+  },
+];
 export default {
   name: "Category",
   components: {CategoryList, AboutMe},
@@ -70,7 +89,13 @@ export default {
         {type: 'like-o', text: '156'},
         {type: 'message', text: '2'},
       ],
+      data,
     };
+  },
+  methods: {
+    onSearch() {
+
+    }
   },
 }
 </script>

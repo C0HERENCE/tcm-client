@@ -11,7 +11,13 @@
           <b-nav-item to="/forum/category">交流问答</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav>
-          <b-nav-item>
+          <b-nav-item v-if="true">
+            <a-space>
+              <a-button @click="$router.push('/user/login')">登录</a-button>
+              <a-button @click="$router.push('/user/register')" type="primary">注册</a-button>
+            </a-space>
+          </b-nav-item>
+          <b-nav-item v-else>
             <a-dropdown>
               <a class="small">
                 <b-avatar variant="primary" text="BV" size="1.7rem"></b-avatar>
@@ -31,20 +37,7 @@
             </a-dropdown>
           </b-nav-item>
           <b-nav-item>
-            <a-dropdown>
-              <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-                <b-icon icon="globe" scale="1.2rem"></b-icon>
-                CN
-              </a>
-              <a-menu slot="overlay">
-                <a-menu-item>
-                  <a href="javascript:;">English</a>
-                </a-menu-item>
-                <a-menu-item>
-                  <a href="javascript:;">中文简体</a>
-                </a-menu-item>
-              </a-menu>
-            </a-dropdown>
+              <select-lang></select-lang>
           </b-nav-item>
 
         </b-navbar-nav>
@@ -56,8 +49,12 @@
 </template>
 
 <script>
+import SelectLang from '@/components/SelectLang';
 export default {
-name: "HeaderBar"
+  name: "HeaderBar",
+  components: {
+    SelectLang
+  }
 }
 </script>
 

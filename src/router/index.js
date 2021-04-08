@@ -6,47 +6,79 @@ Vue.use(VueRouter)
 const routes = [
     {
         path: '/',
-        name: 'Home',
-        component: () => import('../views/Home.vue')
-    },
-    {
-        path: '/about',
-        name: 'About',
-        component: () => import('../views/About.vue')
-    },
-    {
-        path: '/user/login',
-        name: 'Login',
-        component: () => import('../views/user/Login')
-    },
-    {
-        path: '/forum/category',
-        name: 'ForumCategory',
-        component: () => import('../views/forum/Category')
-    },
-    {
-        path: '/knowledge',
-        name: 'Knowledge',
-        component: () => import('../views/knowledge/Index'),
-        redirect: '/knowledge/herb',
+        name: 'BasicLayout',
+        component: () => import('../layouts/BasicLayout'),
         children: [
             {
-                path: 'herb',
-                name: 'herb',
-                component: () => import('../views/knowledge/Herb'),
+                path: '/',
+                name: 'Home',
+                component: () => import('../views/Home.vue')
             },
             {
-                path: 'prescription',
-                name: 'prescription',
-                component: () => import('../views/knowledge/Prescription'),
+                path: '/about',
+                name: 'About',
+                component: () => import('../views/About.vue')
             },
             {
-                path: 'symptom',
-                name: 'symptom',
-                component: () => import('../views/knowledge/Symptom'),
+                path: '/knowledge',
+                name: 'Knowledge',
+                component: () => import('../views/knowledge/Index'),
+                redirect: '/knowledge/herb',
+                children: [
+                    {
+                        path: 'herb',
+                        name: 'herb',
+                        component: () => import('../views/knowledge/Herb'),
+                    },
+                    {
+                        path: 'prescription',
+                        name: 'prescription',
+                        component: () => import('../views/knowledge/Prescription'),
+                    },
+                    {
+                        path: 'symptom',
+                        name: 'symptom',
+                        component: () => import('../views/knowledge/Symptom'),
+                    },
+                ]
+            }
+        ]
+    },
+    {
+        path: '/user',
+        name: 'UserLayout',
+        component: () => import('../layouts/UserLayout'),
+        children: [
+            {
+                path: 'login',
+                name: 'Login',
+                component: () => import('../views/user/Login')
+            },
+            {
+                path: 'register',
+                name: 'Register',
+                component: () => import('../views/user/Register')
+            },
+            {
+                path: 'recover',
+                name: 'Recover',
+                component: () => import('../views/user/Recover')
+            }
+        ]
+    },
+    {
+        path: '/forum',
+        name: 'ForumLayout',
+        component: () => import('../layouts/ForumLayout'),
+        redirect: '/forum/category',
+        children: [
+            {
+                path: 'category',
+                name: 'ForumCategory',
+                component: () => import('../views/forum/Category')
             },
         ]
-    }
+    },
 ]
 
 const router = new VueRouter({
