@@ -11,7 +11,7 @@
         <div class="top">
           <div class="header">
             <a href="/">
-              <img src="~@/assets/logo.png" class="logo" alt="logo">
+<!--              <img src="~@/assets/logo.png" class="logo" alt="logo">-->
               <span class="title">{{ $t('layouts.userLayout.title') }}</span>
             </a>
           </div>
@@ -24,12 +24,12 @@
 <!--        底部-->
         <div class="footer">
           <div class="links">
-            <a href="#">帮助</a>
-            <a href="#">隐私</a>
-            <a href="#">条款</a>
+<!--            <a href="#">帮助</a>-->
+<!--            <a href="#">隐私</a>-->
+<!--            <a href="#">条款</a>-->
           </div>
           <div class="copyright">
-            Copyright &copy; 2021 TCM
+            Copyright &copy; 2021 TCM Platform
           </div>
         </div>
       </div>

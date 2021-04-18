@@ -1,15 +1,23 @@
 import storage from "store";
-import { login } from "@/api/login";
+import { login } from "@/api/user";
 import { ACCESS_TOKEN } from "@/store/mutation-types";
 
 export default {
   state: {
     token: "",
+    username: ""
+  },
+
+  getters: {
+    isLogin: state => {
+      return state.token !== undefined && state.token !== null && state.token.length !== 0
+    }
   },
 
   mutations: {
-    SET_TOKEN: (state, token) => {
-      state.token = token;
+    SET_TOKEN: (state, param) => {
+      state.token = param.token;
+      state.username = param.username;
     },
   },
 
@@ -18,11 +26,12 @@ export default {
       return new Promise((resolve, reject) => {
         login(username, password)
           .then((response) => {
-            const token = response.data;
-            // 保存token至local storage和vuex store
-            storage.set(ACCESS_TOKEN, token, 7 * 24 * 60 * 60 * 1000);
-            commit("SET_TOKEN", token);
-            resolve();
+            if (response.status === 200) {
+              // 保存token至local storage和vuex store
+              storage.set(ACCESS_TOKEN, response.data.token, 7 * 24 * 60 * 60 * 1000);
+              commit("SET_TOKEN", response.data);
+            }
+            resolve(response);
           })
           .catch((error) => {
             reject(error);

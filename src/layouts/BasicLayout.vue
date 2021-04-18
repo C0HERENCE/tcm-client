@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div id="app">
     <div id="content">
       <HeaderBar></HeaderBar>
       <router-view/>
     </div>
-    <footer id="footer">
-      AbcdefggfedcbA ©2021
+    <footer id="footer" class="small">
+      中医药知识科普平台 ©2021
     </footer>
   </div>
 </template>
@@ -21,6 +21,10 @@ export default {
 </script>
 
 <style scoped>
+#app {
+  min-height: 100vh;
+  position: relative;
+}
 #content {
   padding-bottom: 2.5rem;
 }

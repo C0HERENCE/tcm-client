@@ -6,11 +6,11 @@ Vue.use(VueRouter)
 const routes = [
     {
         path: '/',
-        name: 'BasicLayout',
+        name: 'Home',
         component: () => import('../layouts/BasicLayout'),
         children: [
             {
-                path: '/',
+                path: '',
                 name: 'Home',
                 component: () => import('../views/Home.vue')
             },
@@ -27,17 +27,17 @@ const routes = [
                 children: [
                     {
                         path: 'herb',
-                        name: 'herb',
+                        name: 'Herb',
                         component: () => import('../views/knowledge/Herb'),
                     },
                     {
                         path: 'prescription',
-                        name: 'prescription',
+                        name: 'Prescription',
                         component: () => import('../views/knowledge/Prescription'),
                     },
                     {
                         path: 'symptom',
-                        name: 'symptom',
+                        name: 'Symptom',
                         component: () => import('../views/knowledge/Symptom'),
                     },
                 ]
@@ -75,10 +75,39 @@ const routes = [
             {
                 path: 'category',
                 name: 'ForumCategory',
-                component: () => import('../views/forum/Category')
+                components: {
+                    default: () => import('../views/forum/Category'),
+                    side: () => import('../components/forum/AboutMe')
+                }
+            },
+            {
+                path: 'post',
+                name: 'PostThread',
+                components: {
+                    default: () => import('../views/forum/PostThread'),
+                    side: () => import('../components/forum/AboutMe')
+                }
             },
         ]
     },
+    {
+        path: '/account',
+        name: 'AccountLayout',
+        component: () => import('../layouts/AccountLayout'),
+        redirect: '/account/profile',
+        children: [
+            {
+                path: 'setting',
+                name: 'Setting',
+                component: () => import('../views/account/Settings')
+            },
+            {
+                path: 'profile',
+                name: 'Profile',
+                component: () => import('../views/account/Profile')
+            },
+        ]
+    }
 ]
 
 const router = new VueRouter({

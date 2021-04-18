@@ -2,7 +2,7 @@
   <div class="home">
     <div class="home-banner">
       <div class="home-search">
-        <input type="text" autocomplete="off" id="search" placeholder="请输入您要查询的疾病、症状、医院、医生、药品" class="search"/>
+        <input type="text" autocomplete="off" id="search" placeholder="请输入您要查询的中药材、疾病症状或药方关键词" class="search"/>
         <button class="search-button" style="color: rgb(90, 158, 254);">
           <img src="@/assets/search-button.png" alt="search-button" style="height: 32px; width: 32px;">
         </button>
@@ -16,21 +16,21 @@
           <router-link to="/HerbGuide">
             <h3>{{$t("中医文化")}}</h3>
           </router-link>
-          <p>{{$t("index.herb")}}</p>
+<!--          <p>{{$t("index.herb")}}</p>-->
         </div>
         <div class="col-lg-4">
           <img src="../assets/index_tcm.png" height="86" width="86"/>
           <router-link to="/knowledge">
             <h3>{{$t("知识百科")}}</h3>
           </router-link>
-          <p>{{$t("index.herb")}}</p>
+<!--          <p>{{$t("index.herb")}}</p>-->
         </div>
         <div class="col-lg-4">
           <img src="../assets/index_tcm.png" height="86" width="86"/>
           <router-link to="/forum/category">
             <h3>{{$t("交流问答")}}</h3>
           </router-link>
-          <p>{{$t("index.herb")}}</p>
+<!--          <p>{{$t("index.herb")}}</p>-->
         </div>
       </b-row>
     </b-container>

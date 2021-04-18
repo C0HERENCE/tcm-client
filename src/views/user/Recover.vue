@@ -1,5 +1,17 @@
 <template>
-<div>找回密码</div>
+<div>找回密码
+  <br>找回密码
+  <br>找回密码
+  <br>找回密码
+  <br>找回密码
+  <br>找回密码
+  <br>找回密码
+  <br>找回密码
+  <br>找回密码
+  <br>找回密码
+  <br>找回密码
+  <br>
+</div>
 </template>
 
 <script>

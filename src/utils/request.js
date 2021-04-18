@@ -21,7 +21,7 @@ const errorHandler = (error) => {
     });
   }
   // 401：无权限
-  if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
+  else if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
     notification.error({
       message: "Unauthorized",
       description: "Authorization verification failed",
@@ -35,6 +35,15 @@ const errorHandler = (error) => {
       });
     }
   }
+  // 500 等
+  else {
+    notification['error']({
+      message: '错误',
+      description: '请求出现错误，请稍后再试',
+      duration: 4
+    })
+  }
+
   return Promise.reject(error);
 };
 
