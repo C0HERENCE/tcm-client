@@ -7,8 +7,8 @@
           <div class="avatar">
             <img src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" alt="avatar">
           </div>
-          <div class="username">天野远子</div>
-          <div class="bio">海纳百川，有容乃大</div>
+          <div class="username">{{nickname}}</div>
+          <div class="bio">{{email}}</div>
         </a-card>
       </a-col>
       <a-col :md="24" :lg="17">
@@ -37,10 +37,24 @@ export default {
           tab: '个人资料'
         },
         {
+          key: 'Favourite',
+          tab: '我的收藏'
+        },
+        {
+          key: 'Published',
+          tab: '我发表的'
+        },
+        {
+          key: 'History',
+          tab: '浏览历史'
+        },
+        {
           key: 'Setting',
-          tab: '个人设置'
+          tab: '安全设置'
         },
       ],
+      nickname: '昵称',
+      email: '7499767@qq.com',
       noTitleKey: this.$route.name
     }
   },

@@ -37,7 +37,7 @@ export function getThreadByThreadId(id) {
 
 export function postThread(data) {
     return request({
-        url: '/api/thread/post',
+        url: '/api/forum/thread/post',
         method: 'post',
         data: data
     })
@@ -45,7 +45,7 @@ export function postThread(data) {
 
 export function replyThread(data) {
     return request({
-        url: '/api/thread/reply',
+        url: '/api/forum/thread/reply',
         method: 'post',
         data: data
     })
@@ -53,7 +53,7 @@ export function replyThread(data) {
 
 export function viewThread(id) {
     return request({
-        url: '/api/thread/view/' + id,
+        url: '/api/forum/thread/view/' + id,
         method: 'post'
     })
 }

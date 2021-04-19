@@ -1,5 +1,5 @@
 <template>
-  <a-row>
+  <a-row :gutter="16">
     <a-col :lg="6" :md="12" :sm="24">
       <CategoryList @menuChanged="e=>this.currentCategoryId=e"></CategoryList>
     </a-col>
@@ -53,7 +53,9 @@ export default {
     }
   },
   mounted() {
-
+    if (this.$route.params.goto !== "" && this.$route.params.goto !== undefined) {
+      this.currentCategoryId = this.$route.params.goto;
+    }
   },
   watch: {
     currentCategoryId(newValue, oldValue) {

@@ -14,11 +14,7 @@ const routes = [
                 name: 'Home',
                 component: () => import('../views/Home.vue')
             },
-            {
-                path: '/about',
-                name: 'About',
-                component: () => import('../views/About.vue')
-            },
+            // 知识库模块
             {
                 path: '/knowledge',
                 name: 'Knowledge',
@@ -42,8 +38,10 @@ const routes = [
                     },
                 ]
             }
+            // 搜索功能
         ]
     },
+    // 登录注册功能
     {
         path: '/user',
         name: 'UserLayout',
@@ -66,6 +64,7 @@ const routes = [
             }
         ]
     },
+    // 论坛模块
     {
         path: '/forum',
         name: 'ForumLayout',
@@ -88,6 +87,14 @@ const routes = [
                     side: () => import('../components/forum/AboutMe')
                 }
             },
+            {
+                path: 'thread/:id',
+                name: 'Thread',
+                components: {
+                        default: () => import('../views/forum/Thread'),
+                        side: () => import('../components/forum/AboutAuthor')
+                }
+            }
         ]
     },
     {
@@ -105,6 +112,21 @@ const routes = [
                 path: 'profile',
                 name: 'Profile',
                 component: () => import('../views/account/Profile')
+            },
+            {
+                path: 'history',
+                name: 'History',
+                component: () => import('../views/account/History')
+            },
+            {
+                path: 'favourite',
+                name: 'Favourite',
+                component: () => import('../views/account/Favourite')
+            },
+            {
+                path: 'published',
+                name: 'Published',
+                component: () => import('../views/account/Published')
             },
         ]
     }

@@ -8,5 +8,8 @@
   }
 </script>
 
-<style scoped>
+<style>
+.anticon {
+  vertical-align: 0;
+}
 </style>
