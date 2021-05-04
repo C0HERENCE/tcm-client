@@ -15,6 +15,8 @@ Vue.use(BootstrapVueIcons);
 
 Vue.config.productionTip = false
 Vue.use(Antd);
+import {Network} from 'vue-vis-network'
+Vue.component('network', Network);
 
 new Vue({
   router,

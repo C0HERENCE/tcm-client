@@ -5,10 +5,10 @@
       <a-col :md="24" :lg="7">
         <a-card class="avatar-holder">
           <div class="avatar">
-            <img src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" alt="avatar">
+            <img :src="personalInfo.avatar" alt="avatar">
           </div>
-          <div class="username">{{nickname}}</div>
-          <div class="bio">{{email}}</div>
+          <div class="username">{{personalInfo.nickname}}</div>
+          <div class="bio">{{personalInfo.email}}</div>
         </a-card>
       </a-col>
       <a-col :md="24" :lg="17">
@@ -16,7 +16,7 @@
                 :tabList="tabListNoTitle"
                 :activeTabKey="noTitleKey"
                 @tabChange="key => handleTabChange(key)">
-          <router-view></router-view>
+          <router-view @personalInfoChange="(v) => this.personalInfo=v"></router-view>
         </a-card>
       </a-col>
     </a-row>
@@ -31,30 +31,29 @@ export default {
   components: {HeaderBar},
   data() {
     return {
+      personalInfo: {},
       tabListNoTitle: [
         {
           key: 'Profile',
-          tab: '个人资料'
+          tab: this.$t('layouts.accountLayout.profile')
         },
         {
           key: 'Favourite',
-          tab: '我的收藏'
+          tab: this.$t('layouts.accountLayout.favourite')
         },
         {
           key: 'Published',
-          tab: '我发表的'
+          tab: this.$t('layouts.accountLayout.published')
         },
-        {
-          key: 'History',
-          tab: '浏览历史'
-        },
+        // {
+        //   key: 'History',
+        //   tab: this.$t('layouts.accountLayout.history')
+        // },
         {
           key: 'Setting',
-          tab: '安全设置'
+          tab: this.$t('layouts.accountLayout.setting')
         },
       ],
-      nickname: '昵称',
-      email: '7499767@qq.com',
       noTitleKey: this.$route.name
     }
   },

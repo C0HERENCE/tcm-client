@@ -1,0 +1,97 @@
+export default {
+    views: {
+        components: {
+          'header-bar-title': '中医药知识科普平台',
+            'is':'信息检索',
+            'kb':'知识库',
+            'category':'交流问答',
+            'uc': '个人中心',
+            'q': '退出登录',
+            'login': '登录',
+            'register': '注册',
+            'kaptcha': '在此输入图片中的字母或数字,点击可刷新',
+            "valid": '验证码输入错误',
+            "correct": '验证码输入正确',
+            "kb-title": '数据库',
+            "kb-keyword": '关键词',
+            "kb-placeholder": '请在此选择搜索字段',
+            'at': '在',
+            'kb-i': '中药材',
+            'kb-ii': '药方',
+            'kb-iii': '讨论',
+            'add': '添加条件',
+        },
+        account: {
+            'myfav': '我的收藏',
+            "old-pwd": "原密码",
+            "new-pwd": "新密码",
+            "re-pwd": "重复新密码",
+            "set-pwd": "修改密码"
+        },
+        profile: {
+            'nickname': '昵称',
+            'nickname-placeholder': '请输入昵称',
+            'realname': '真实姓名',
+            'name-sample': '张三',
+            'email': '邮箱',
+            'email-placeholder': 'example@tcm.com',
+            'qq': 'QQ',
+            'common-qq': '常用QQ号',
+            'tel': '手机',
+            'common-tel': '常用手机号',
+            'you-can-write-info-here': '可在此作简短的个人介绍',
+            'update-profile': '更新个人信息',
+            'personal-info': '个人介绍',
+            'img-format': '只能选择jpg或png图片',
+            'image-size': '图像大小必须在2MB以内!',
+            'please-update-info': '请更新个人信息'
+        },
+        published: {
+            'my-pub': '我发表的',
+        },
+        home: {
+            'search-tip': '请输入您要查询的中药材、疾病症状或药方关键词',
+            'bks': '信息检索',
+            'bkb': '知识库',
+            'bkw': '交流问答',
+            'welcome': '欢迎回来'
+        },
+        search: {
+            'search-top': '请输入您要查询的中药材、疾病症状或药方关键词',
+            'adv': '高级',
+        },
+        kb: {
+            'all': '全部',
+            'feedback': '意见反馈',
+            'title': '标题',
+            'content': '内容',
+            'phd': '在此输入标题',
+            'phdd': '再次输入内容',
+        },
+        forum: {
+            'search-tip': '请输入要查找的帖子关键词',
+            'search': '搜索',
+            'about-me': '关于我',
+            'new': '发布新帖',
+            'fav': '收藏',
+            'like': '点赞',
+            'all': '所有',
+        },
+        post: {
+            'title': '请填写标题',
+            'category': '请选择板块标题',
+            'topic': '可在此输入‘#关键词’提及中医药知识',
+            'publish': '发布',
+        },
+        thread: {
+            'last-edit': '最后编辑于',
+            'published-at': '发布于',
+            'author': '作者',
+            'agg': '赞同',
+            'dis': '反对',
+            'add': '添加评论',
+            'index': '首页',
+            'talk': '交流讨论'
+        },
+    }
+}

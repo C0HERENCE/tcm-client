@@ -1,7 +1,7 @@
 <template>
   <a-row class="my-1" :gutter="8">
     <a-col :lg="5" :md="8" :sm="24">
-      <a-card title="疾病诊疗分类">
+      <a-card title="疾病诊疗/Disease">
         <a-tree :tree-data="gData" @select="onSelect">
         </a-tree>
       </a-card>
@@ -21,9 +21,25 @@
             <a-list-item-meta>
               <div slot="title">{{i}}</div>
               <div slot="description">
-                <router-link v-for="j in selectedCategory.display[i]" :key="j.id" to="/">
-                  {{j.chinesename}}
-                </router-link>
+                <a-popover trigger="click" v-for="j in selectedCategory.display[i]" :key="j.id">
+                  <span slot="title">
+                    <a-button type="link"
+                              @click="$router.push({name: 'SearchResult', params: {keyword: $store.state.app.lang === 'zh-CN'? j.chinesename : j.latinname}})">
+                      查看更多
+                    </a-button>
+                  </span>
+                  <a-list slot="content" :loading="loading">
+                    <a-list-item v-for="mini in miniResult" :key="mini.id">
+                      <a-list-item-meta :description="mini.intro.substr(0,20)+'...'">
+                        <router-link slot="title" :to="mini.url">{{ mini.name }}</router-link>
+                        <a-avatar slot="avatar" :src="mini.pic"/>
+                      </a-list-item-meta>
+                    </a-list-item>
+                  </a-list>
+                  <a-button type="link" @click="miniSearch(j)">
+                    {{ $store.state.app.lang === 'zh-CN' ? j.chinesename : j.latinname }}
+                  </a-button>
+                </a-popover>
               </div>
             </a-list-item-meta>
           </a-list-item>
@@ -35,6 +51,8 @@
 
 <script>
 import {getCategoryByTypeId, getKnowledgeByCategoryId} from "@/api/knowledge";
+import {miniSearchName} from "@/api/search";
+import {searchResultConvert} from "@/utils/convert";
 export default {
   name: "Symptom",
   data() {
@@ -46,6 +64,8 @@ export default {
         mapped: {},
         display: {}
       },
+      miniResult: [],
+      loading: false
     };
   },
   methods: {
@@ -66,10 +86,19 @@ export default {
           this.selectedInitial = "All"
         })
       }
+    },
+    miniSearch(disease) {
+      this.loading = true;
+      this.miniResult = []
+      miniSearchName(["disease"], disease.chinesename, 3).then(res => {
+        if (res.status === 200)
+          for (let i = 0; i< res.data.result.length;i++)
+            this.miniResult.push(searchResultConvert(res.data.result[i]))
+      }).finally(() => this.loading=false)
     }
   },
   mounted() {
-    getCategoryByTypeId(3).then(res => {
+    getCategoryByTypeId(2).then(res => {
       this.gData = res.data;
     })
   }

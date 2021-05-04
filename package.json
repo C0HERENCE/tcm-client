@@ -12,12 +12,14 @@
     "axios": "^0.21.1",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "store": "^2.0.12",
     "vue": "^2.6.11",
     "vue-cropperjs": "^5.0.0",
     "vue-i18n": "^8.24.2",
     "vue-router": "^3.2.0",
+    "vue-vis-network": "^1.0.2",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

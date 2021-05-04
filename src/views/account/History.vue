@@ -1,5 +1,5 @@
 <template>
-<div>浏览历史</div>
+<div></div>
 </template>
 
 <script>

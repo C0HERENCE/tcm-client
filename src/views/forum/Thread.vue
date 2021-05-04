@@ -4,30 +4,36 @@
     <a-card>
       <a-breadcrumb>
         <a-breadcrumb-item>
-          <router-link to="/">首页</router-link>
+          <router-link to="/">{{$t('views.thread.index')}}</router-link>
         </a-breadcrumb-item>
         <a-breadcrumb-item>
-          <router-link to="/forum">交流讨论</router-link>
+          <router-link to="/forum">{{$t('views.thread.talk')}}</router-link>
         </a-breadcrumb-item>
         <!--        <a-breadcrumb-item><router-link :to="{path: '/forum/category', params:{goto:page.thread.categoryid}}">{{page.thread.categorytitle}}</router-link></a-breadcrumb-item>-->
         <a-breadcrumb-item>{{ page.thread.title }}</a-breadcrumb-item>
       </a-breadcrumb>
     </a-card>
-    <!--    标题正文-->
-    <h2 class="text-center">{{ page.thread.title }}</h2>
-    <a-row>
-      <a-col :span="8">
-        <div class="small text-muted">作者：{{ page.thread.authorid }}</div>
-      </a-col>
-      <a-col :span="8">
-        <div class="small text-muted">编辑时间：{{ moment(page.thread.modifytime, "YYYYMMDD").fromNow() }}</div>
-      </a-col>
-      <a-col :span="8">
-        <div class="small text-muted">发布时间：{{ moment(page.thread.createtime, "YYYYMMDD").fromNow() }}</div>
-      </a-col>
-    </a-row>
+    <a-card>
+      <!--    标题正文-->
+      <h2 slot="title" class="text-center">{{ page.thread.title }}</h2>
+      <a-row>
+        <a-col :offset="8" :span="8">
+          <div class="small text-muted float-right">{{$t('views.thread.last-edit')}}：{{ moment(page.thread.modifytime, "YYYYMMDD").fromNow() }}</div>
+        </a-col>
+        <a-col :span="8">
+          <div class="small text-muted float-right">{{$t('views.thread.published-at')}}：{{ moment(page.thread.createtime, "YYYYMMDD").fromNow() }}</div>
+        </a-col>
+        <hr>
+      </a-row>
+      <div v-html="page.thread.content"></div>
 
-    <div v-html="page.thread.content"></div>
+      <div slot="actions" class="small text-muted float-right mr-3">
+        {{$t('views.thread.author')}}
+        <a-avatar :src="page.thread.avatar"></a-avatar>
+        {{ page.thread.nickname }}
+      </div>
+    </a-card>
+
 
     <!--    评论列表-->
     <hr>
@@ -41,38 +47,26 @@
           <template slot="actions">
             <!--        赞同-->
             <span key="comment-basic-like">
-        <a-tooltip title="赞同">
-          <a-icon type="like" :theme="action === 'liked' ? 'filled' : 'outlined'" @click="like"/>
-        </a-tooltip>
-        <span style="padding-left: '8px';cursor: 'auto'">
-          {{ item.agreecount }}
-        </span>
-      </span>
+                <a-tooltip :title="$t('views.post.agg')">
+                  <a-icon type="like" :theme="item.agreed === 1 ? 'filled' : 'outlined'" @click="likeAction(item, 'agree')"/>
+                </a-tooltip>
+                <span class="mx-1">{{ item.fmsComment.agreecount }}</span>
+            </span>
             <!--        反对-->
             <span key="comment-basic-dislike">
-        <a-tooltip title="反对">
-          <a-icon
-              type="dislike"
-              :theme="action === 'disliked' ? 'filled' : 'outlined'"
-              @click="dislike"
-          />
-        </a-tooltip>
-        <span style="padding-left: '8px';cursor: 'auto'">
-          {{ item.disagreecount }}
-        </span>
-      </span>
+              <a-tooltip :title="$t('views.post.dis')">
+                <a-icon type="dislike" :theme="item.agreed === 0 ? 'filled' : 'outlined'" @click="disLikeAction(item, 'disagree')"/>
+              </a-tooltip>
+              <span class="mx-1">{{ item.fmsComment.disagreecount }}</span>
+            </span>
           </template>
-          <a slot="author">{{item.authorid}}</a>
-          <a-avatar
-              slot="avatar"
-              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-              alt="avatar alt"
-          />
+          <a slot="author">{{ item.nickname }}</a>
+          <a-avatar slot="avatar" :src="item.avatar" alt="avatar alt"/>
           <p slot="content">
-            {{item.content}}
+            {{ item.fmsComment.content }}
           </p>
           <a-tooltip slot="datetime" :title="moment().format('YYYY-MM-DD HH:mm:ss')">
-            <span>{{ moment(item.createtime, 'YYYYMDD').fromNow() }}</span>
+            <span>{{ moment(item.fmsComment.createtime, 'YYYYMDD').fromNow() }}</span>
           </a-tooltip>
         </a-comment>
       </a-list-item>
@@ -81,87 +75,125 @@
     <!--发表评论-->
     <hr>
     <a-comment>
-      <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" alt="Han Solo"/>
+      <a-avatar slot="avatar" :src="avatar" alt="Han Solo"/>
       <div slot="content">
         <a-form-item>
           <a-textarea :rows="4" v-model="content"/>
         </a-form-item>
         <a-form-item>
+          <kaptcha @valid="(e) => this.kaptcah = e"></kaptcha>
           <a-button html-type="submit" :loading="submitting" type="primary" @click="handleSubmit">
-            添加评论
+            {{$t('views.thread.add')}}
           </a-button>
         </a-form-item>
       </div>
     </a-comment>
-
+    <ABackTop></ABackTop>
   </div>
 </template>
 
 <script>
-import {getThreadByThreadId, replyThread} from "@/api/forum";
+import {getThreadByThreadId, replyThread, actionComment} from "@/api/forum";
+import {getAvatar} from "@/api/account";
 import moment from 'moment'
+import Kaptcha from "@/components/Kaptcha";
 
 
 export default {
   name: "Thread",
+  components: {Kaptcha},
   data() {
     return {
       content: '',
       submitting: false,
-      likes: 0,
-      dislikes: 0,
-      action: null,
       page: {
-        fav: 0,
-        liked: 0,
-        views: 0,
-        fmsComments: [],
-        fmsThreadKmsKnowledgeList: [],
         thread: {
-          authorid: 0,
-          categoryid: 0,
-          categoryintro: "",
-          categorylogo: null,
-          categorytitle: "",
-          content: "",
-          createtime: "2",
-          enabled: 1,
-          id: 16,
-          modifytime: "",
-          title: "",
-          typeid: 1,
-          typename: "",
-        }
-      }
+          title: ""
+        },
+        fmsComments: []
+      },
+      avatar: '',
+      kaptcah: ''
     }
   },
   methods: {
     moment: moment,
-    like() {
-      this.likes = 1;
-      this.dislikes = 0;
-      this.action = 'liked';
+    likeAction(row) {
+      if (row.agreed !== 1) {
+        actionComment(row.fmsComment.id, 1).then(res=> {
+          if (res.status === 200) {
+            row.fmsComment.agreecount++; // 点赞
+            if (row.agreed === 0)row.fmsComment.disagreecount--;
+            row.agreed = 1
+          }
+        })
+      } else {
+        actionComment(row.fmsComment.id, -1).then(res => {
+          if (res.status === 200) {
+            row.agreed = -1; // 取消点赞
+            row.fmsComment.agreecount--;
+          }
+        })
+      }
     },
-    dislike() {
-      this.likes = 0;
-      this.dislikes = 1;
-      this.action = 'disliked';
+    disLikeAction(row) {
+      if (row.agreed !== 0) {
+        actionComment(row.fmsComment.id, 0).then(res => {
+          if (res.status === 200) {
+            row.fmsComment.disagreecount++; // 点踩
+            if (row.agreed === 1)row.fmsComment.agreecount--;
+            row.agreed = 0
+          }
+        })
+      } else {
+        actionComment(row.fmsComment.id, -1).then(res => {
+          if (res.status === 200) {
+            row.agreed = -1; // 取消点踩
+            row.fmsComment.disagreecount--;
+          }
+        })
+      }
+    },
+    loadThread() {
+      getThreadByThreadId(this.$route.params.id).then(res => {
+        if (res.status !== 200) {
+          this.$message.error("你所查看的帖子不存在")
+          this.$router.push("/forum/category")
+        }
+        else {
+          this.page = res.data
+        }
+      }).then(() => {
+        getAvatar().then(res => this.avatar = res.data);
+      })
     },
     handleSubmit() {
+      if (this.kaptcah !== true) {
+        this.$message.error("验证码输入不正确")
+        return;
+      }
+      if (this.content === "") {
+        this.$message.error("请输入回复内容")
+        return;
+      }
       this.submitting = true;
       replyThread({
         threadId: this.$route.params.id,
         content: this.content
       }).then(res => {
-        this.$notification.info({message: res.data.message})
+        if (res.status === 200) {
+          this.$notification.success({message: "Ok"});
+          this.loadThread();
+          this.content = ""
+        } else {
+          this.$notification.error({message: "Failed"});
+        }
       }).finally(() => this.submitting = false)
     }
   },
   mounted() {
     moment.locale('zh-cn')
-    getThreadByThreadId(this.$route.params.id).then(res => {
-      this.page = res.data
-    })
+    this.loadThread();
   }
 }
 </script>

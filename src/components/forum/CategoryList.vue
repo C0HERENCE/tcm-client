@@ -9,6 +9,7 @@
 <script>
 import {getAllCategories} from "@/api/forum";
 
+let first = true;
 export default {
   name: "CategoryList",
   data() {
@@ -30,8 +31,13 @@ export default {
   },
   watch: {
     current(newValue, oldValue) {
-      if (newValue !== oldValue)
+      if (newValue !== oldValue) {
+        if (first && this.$route.params.q) {
+          first = false;
+          return;
+        }
         this.$emit("menuChanged", newValue)
+      }
     }
   },
 }

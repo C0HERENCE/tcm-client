@@ -1,16 +1,37 @@
 <template>
 <a-card>
-  <a-card-meta title="我">
-    <p slot="title">ccwisp</p>
-    <a-avatar slot="avatar" src="http://himg.bdimg.com/sys/portrait/item/699a7468654170706c655f4d794579658f35.jpg"/>
-    <span slot="description">还没有个人介绍</span>
+  <a-card-meta :title="$t('views.forum.about-me')" v-if="my !== null">
+    <a-avatar slot="avatar" :src="my.avatar"/>
+    <span slot="description">
+      <p>
+      {{my.intro !== "" ? my.intro : '-'}}
+      </p>
+    <a-button size="large">
+      <router-link :to="{name: 'PostThread'}"><a-icon type="plus"></a-icon>
+      {{$t('views.forum.new')}}
+      </router-link>
+    </a-button>
+    </span>
   </a-card-meta>
 </a-card>
 </template>
 
 <script>
+import {getMyInfo} from "@/api/forum";
+
 export default {
-  name: "AboutMe"
+  name: "AboutMe",
+  data() {
+    return {
+      my: null
+    }
+  },
+  mounted() {
+    // if (this.$store.getters.user.isLogin)
+    getMyInfo().then(res => {
+      this.my = res.data
+    })
+  }
 }
 </script>
 

@@ -4,21 +4,32 @@ import storage from 'store'
 
 // default lang
 import enUS from './lang/en-US'
+import zhCN from './lang/zh-CN'
 
 Vue.use(VueI18n)
 
 export const defaultLang = 'en-US'
 
+let lang = defaultLang
+if (storage.get('lang') === 'zh-CN' || storage.get('lang') === 'en-US'){
+    lang = storage.get('lang')
+} else {
+    lang = defaultLang;
+}
+
 const messages = {
     'en-US': {
         ...enUS
+    },
+    'zh-CN': {
+        ...zhCN
     }
 }
 
 
 const i18n = new VueI18n({
     silentTranslationWarn: true,
-    locale: defaultLang,
+    locale: lang,
     fallbackLocale: defaultLang,
     messages
 })
@@ -28,7 +39,6 @@ const loadedLanguages = [defaultLang]
 
 function setI18nLanguage (lang) {
     i18n.locale = lang
-    // request.headers['Accept-Language'] = lang
     document.querySelector('html').setAttribute('lang', lang)
     return lang
 }

@@ -5,20 +5,16 @@
     </a-col>
     <a-col :lg="18" :md="12" :sm="24">
       <a-row>
-        <a-col :lg="20" :sm="12">
-          <a-input-search placeholder="输入关键词搜索帖子" enter-button="搜索" size="large" @search="onSearch"/>
-        </a-col>
-        <a-col :lg="4" :sm="12">
-          <a-button size="large" class="float-right">
-            <router-link :to="{name: 'PostThread'}">发布新帖</router-link>
-          </a-button>
+        <a-col :lg="24" :sm="12">
+          <a-input-search v-model="keyword" :placeholder="$t('views.forum.search-tip')"
+                          :enter-button="$t('views.forum.search')" size="large" class="my-2" @search="onSearch"/>
         </a-col>
       </a-row>
 
       <TypeList @typeChanged="e=>this.currentTypeId=e"></TypeList>
       <ThreadList :loading="loading" :thread-data="threadData"></ThreadList>
     </a-col>
-    <a-back-top />
+    <a-back-top/>
   </a-row>
 </template>
 
@@ -26,7 +22,7 @@
 import CategoryList from "@/components/forum/CategoryList";
 import TypeList from "@/components/forum/TypeList";
 import ThreadList from "@/components/forum/ThreadList";
-import {getThreadByCategoryId} from "@/api/forum";
+import {getThreadByCategoryId, searchByKeyword} from "@/api/forum";
 
 
 export default {
@@ -37,12 +33,17 @@ export default {
       currentCategoryId: '',
       currentTypeId: '',
       threadData: [],
-      loading: false
+      loading: false,
+      keyword: '',
     };
   },
   methods: {
     onSearch() {
-
+      this.loading = true;
+      searchByKeyword(this.keyword).then(res => {
+        this.threadData = res.data;
+        this.loading = false;
+      })
     },
     getThreads(cid, tid) {
       this.loading = true;
@@ -55,6 +56,9 @@ export default {
   mounted() {
     if (this.$route.params.goto !== "" && this.$route.params.goto !== undefined) {
       this.currentCategoryId = this.$route.params.goto;
+    } else if (this.$route.params.q) {
+      this.keyword = this.$route.params.q
+      this.onSearch();
     }
   },
   watch: {

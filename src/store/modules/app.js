@@ -4,7 +4,7 @@ import {APP_LANGUAGE} from "@/store/mutation-types";
 
 export default {
     state: {
-        lang: 'en-US',
+        lang: storage.get(APP_LANGUAGE)
     },
     mutations: {
         [APP_LANGUAGE]: (state, lang, antd = {}) => {
@@ -19,6 +19,7 @@ export default {
                 commit(APP_LANGUAGE, lang)
                 loadLanguageAsync(lang).then(() => {
                     resolve()
+                    location.reload();
                 }).catch((e) => {
                     reject(e)
                 })

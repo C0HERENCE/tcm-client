@@ -64,3 +64,33 @@ export function actionThread(id, key) {
         method: 'post'
     })
 }
+
+export function actionComment(commentId, agreement) {
+    return request({
+        url: '/api/forum/thread/comment/' + commentId,
+        method: 'post',
+        params: {agreement}
+    })
+}
+
+export function getAuthorByThreadId(threadId) {
+    return request({
+        url: '/api/forum/thread/author/' + threadId,
+    })
+}
+
+export function getMyInfo() {
+    return request({
+        url: '/api/forum/my',
+        method: 'get'
+    })
+}
+
+export function searchByKeyword(keyword) {
+    return request({
+        url: '/api/forum/search',
+        params: {
+            keyword: keyword
+        }
+    })
+}

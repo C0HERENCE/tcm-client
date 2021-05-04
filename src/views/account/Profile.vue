@@ -4,101 +4,102 @@
       <a-col :md="24" :lg="16">
 
         <a-form layout="vertical">
-          <a-form-item
-              label="昵称"
-          >
-            <a-input placeholder="请输入昵称"/>
+          <a-form-item :label="$t('views.profile.nickname')">
+            <a-input :placeholder="$t('views.profile.nickname-placeholder')" v-model="personalInfo.nickname"/>
           </a-form-item>
-          <a-form-item
-
-              label="真实姓名"
-          >
-            <a-input placeholder="张三"/>
+          <a-form-item :label="$t('views.profile.realname')">
+            <a-input :placeholder="$t('views.profile.name-sample')" v-model="personalInfo.realname"/>
           </a-form-item>
 
-          <a-form-item
-              label="邮箱"
-              :required="false"
-          >
-            <a-input placeholder="example@tcm.com"/>
+          <a-form-item :label="$t('views.profile.email')" :required="false">
+            <a-input :placeholder="$t('views.profile.email-placeholder')" v-model="personalInfo.email"/>
           </a-form-item>
 
-          <a-form-item
-              label="QQ"
-              :required="false"
-          >
-            <a-input placeholder="常用QQ号"/>
+          <a-form-item :label="$t('views.profile.qq')" :required="false">
+            <a-input :placeholder="$t('views.profile.common-qq')" v-model="personalInfo.qq"/>
           </a-form-item>
 
-          <a-form-item
-              label="手机"
-              :required="false"
-          >
-            <a-input placeholder="常用手机号"/>
+          <a-form-item :label="$t('views.profile.tel')" :required="false">
+            <a-input :placeholder="$t('views.profile.common-tel')" v-model="personalInfo.tel"/>
           </a-form-item>
 
 
-          <a-form-item
-              label="个人介绍"
-          >
-            <a-textarea rows="4" placeholder="可在此作简短的个人介绍"/>
+          <a-form-item :label="$t('views.profile.tel')">
+            <a-textarea rows="4" :placeholder="$t('views.profile.you-can-write-info-here')"
+                        v-model="personalInfo.intro"/>
           </a-form-item>
 
           <a-form-item>
-            <a-button type="primary">更新个人信息</a-button>
+            <a-button type="primary" @click="updatePersonalInfo">{{ $t('views.profile.update-profile') }}</a-button>
           </a-form-item>
         </a-form>
 
       </a-col>
       <a-col :md="24" :lg="8" :style="{ minHeight: '180px' }">
-        <div class="ant-upload-preview" @click="$refs.modal.edit(1)">
-          <a-icon type="cloud-upload-o" class="upload-icon"/>
-          <div class="mask">
-            <a-icon type="plus"/>
+        <a-upload name="file" :multiple="false" action="/files/upload" :show-upload-list="false" @change="uploadAvatar"
+                  :before-upload="beforeUpload">
+          <div class="ant-upload-preview">
+            <a-icon type="cloud-upload-o" class="upload-icon"/>
+            <div class="mask">
+              <a-icon type="plus"/>
+            </div>
+            <img :src="personalInfo.avatar" alt="" style="width:180px;height: 180px"/>
           </div>
-          <img src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" alt=""/>
-        </div>
+        </a-upload>
+
       </a-col>
 
     </a-row>
-
-    <avatar-modal ref="modal" @ok="setavatar"/>
   </div>
 </template>
 
 <script>
-import AvatarModal from './AvatarModal'
+import {getPersonalInfo, updatePersonalInfo} from "@/api/account";
 
 export default {
   name: "Profile",
-  components: {
-    AvatarModal
-  },
   data() {
     return {
-      // cropper
-      preview: {},
-      option: {
-        img: '/avatar2.jpg',
-        info: true,
-        size: 1,
-        outputType: 'jpeg',
-        canScale: false,
-        autoCrop: true,
-        // 只有自动截图开启 宽度高度才生效
-        autoCropWidth: 180,
-        autoCropHeight: 180,
-        fixedBox: true,
-        // 开启宽度和高度比例
-        fixed: true,
-        fixedNumber: [1, 1]
-      }
+      personalInfo: {},
     }
   },
   methods: {
-    setavatar(url) {
-      this.option.img = url
-    }
+    updatePersonalInfo() {
+      updatePersonalInfo(this.personalInfo).then(res => {
+        this.$success({content: res.message})
+        this.personalInfo = res.data
+        this.$emit("personalInfoChange", {email: res.data.email, nickname: res.data.nickname, avatar: res.data.avatar})
+      })
+    },
+    uploadAvatar(info) {
+      if (info.file.status !== 'uploading') {
+        if (info.file.response.status === 200)
+          this.personalInfo.avatar = info.file.response.data;
+      }
+      if (info.file.status === 'done') {
+        if (info.file.response.status === 200)
+          this.$message.success(`${info.file.response.message},` + this.$t('views.profile.please-update-info'));
+        else
+          this.$message.error(`${info.file.response.message}, ${info.file.response.data}`);
+      }
+    },
+    beforeUpload(file) {
+      const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+      if (!isJpgOrPng) {
+        this.$message.error(this.$t('views.profile.img-format'));
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        this.$message.error(this.$t('views.profile.image-size'));
+      }
+      return isJpgOrPng && isLt2M;
+    },
+  },
+  mounted() {
+    getPersonalInfo().then(res => {
+      this.personalInfo = res.data
+      this.$emit("personalInfoChange", {email: res.data.email, nickname: res.data.nickname, avatar: res.data.avatar})
+    })
   }
 
 }

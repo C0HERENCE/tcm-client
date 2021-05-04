@@ -41,9 +41,10 @@
         <a-checkbox v-decorator="['rememberMe', { valuePropName: 'checked' }]">
           {{ $t('user.login.remember-me') }}
         </a-checkbox>
-        <router-link :to="{ name: 'Recover', params: { user: 'aaa'} }" class="forge-password" style="float: right;">
-          {{ $t('user.login.forgot-password') }}
-        </router-link>
+<!--        TODO 忘记密码-->
+<!--        <router-link :to="{ name: 'Recover', params: { user: 'aaa'} }" class="forge-password" style="float: right;">-->
+<!--          {{ $t('user.login.forgot-password') }}-->
+<!--        </router-link>-->
       </a-form-item>
 
       <!--      登录按钮-->
@@ -64,6 +65,7 @@
 
 <script>
 import {mapActions} from 'vuex'
+import {buildAdminRoutes} from '@/router/admin'
 
 export default {
   data() {
@@ -111,25 +113,34 @@ export default {
           setTimeout(() => state.loginBtn = false, 600)
           return;
         }
-        console.log(values)
         Login(values)
             .then((res) => {
-              console.log(res)
               if (res.status === 200) {
-                this.$router.push({path: '/'})
+                if (res.data.isAdmin) {
+                  buildAdminRoutes(res.data.roles)
+                  this.$router.push({path: '/admin'})
+                }
+                else
+                  this.$router.push({path: '/'})
                 // 延迟 1 秒显示欢迎信息
                 setTimeout(() => {
                   this.$notification.success({
                     message: '欢迎',
-                    description: `${res.data.username}，欢迎回来`
+                    description: `${res.data.username}，` + this.$t('views.home.welcome'),
                   })
                 }, 1000)
                 this.isLoginError = false
               }
               else
+              {
                 this.isLoginError = true;
+                this.$message.error(res.message)
+              }
             })
-            .catch(() => this.isLoginError = true)
+            .catch((err) => {
+              this.isLoginError = true
+              console.log(err)
+            })
             .finally(() => state.loginBtn = false)
       })
     },

@@ -1,6 +1,6 @@
 <template>
   <a-menu slot="title" mode="horizontal" :selected-keys="[current]" @click="handleClick">
-    <a-menu-item key="0"> 所有</a-menu-item>
+    <a-menu-item key="0"> {{$t('views.forum.all')}}</a-menu-item>
     <a-menu-item v-for="t in typeData" :key="t.id">
       {{ t.name }}
     </a-menu-item>

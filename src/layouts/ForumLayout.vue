@@ -9,7 +9,7 @@
         <a-col :lg="6">
           <router-view name="side"></router-view>
           <div class="small text-muted text-center my-3">
-          中医药科普平台 ©2021
+            {{$t('layouts.basicLayout.footer')}}
           </div>
         </a-col>
       </a-row>

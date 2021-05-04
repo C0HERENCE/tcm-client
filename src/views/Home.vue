@@ -1,37 +1,35 @@
 <template>
   <div class="home">
-    <div class="home-banner" :class="{'cn-bg': (this.$store.state.app.lang === 'zh-CN'),'en-bg': !(this.$store.state.app.lang === 'zh-CN')}">
+    <div class="home-banner"
+         :class="{'cn-bg': (this.$store.state.app.lang === 'zh-CN'),'en-bg': !(this.$store.state.app.lang === 'zh-CN')}">
       <div class="home-search">
-        <input type="text" autocomplete="off" id="search" placeholder="请输入您要查询的中药材、疾病症状或药方关键词" class="search"/>
-        <button class="search-button" style="color: rgb(90, 158, 254);">
+        <input type="text" v-model="keyword" autocomplete="off" id="search" :placeholder="$t('views.home.search-tip')"
+               class="search" @keyup.enter="searchGlobal"/>
+        <button class="search-button" style="color: rgb(90, 158, 254);" @click="searchGlobal">
           <img src="@/assets/search-button.png" alt="search-button" style="height: 32px; width: 32px;">
         </button>
-        <router-link to="#" class="pt-4 small ml-2">高级检索</router-link>
       </div>
     </div>
 
     <b-container>
       <b-row style="text-align: center; margin-top: 2rem">
         <div class="col-lg-4">
-          <router-link to="/">
+          <router-link to="/search/result">
             <img src="../assets/index_tcm.png" height="86" width="86"/>
-            <h3>{{$t("信息检索")}}</h3>
+            <h3>{{ $t("views.home.bks") }}</h3>
           </router-link>
-<!--          <p>{{$t("index.herb")}}</p>-->
         </div>
         <div class="col-lg-4">
           <router-link to="/knowledge">
             <img src="../assets/index_health.png" height="86" width="86"/>
-            <h3>{{$t("知识库")}}</h3>
+            <h3 v-text="$t('views.home.bkb')"></h3>
           </router-link>
-<!--          <p>{{$t("index.herb")}}</p>-->
         </div>
         <div class="col-lg-4">
           <router-link to="/forum/category">
             <img src="../assets/index_symptom.png" height="86" width="86"/>
-            <h3>{{$t("交流问答")}}</h3>
+            <h3>{{ $t('views.home.bkw') }}</h3>
           </router-link>
-<!--          <p>{{$t("index.herb")}}</p>-->
         </div>
       </b-row>
     </b-container>
@@ -39,22 +37,26 @@
 </template>
 
 <script>
-
 export default {
   name: 'Home',
   data() {
     return {
-      isEn: this.$store.state.app.lang === 'en-US'
+      isEn: this.$store.state.app.lang === 'en-US',
+      keyword: ''
+    }
+  },
+  methods: {
+    searchGlobal() {
+      this.$router.push({name: 'SearchResult', params: {keyword: this.keyword}})
     }
   },
   watch: {
     $store(newValue) {
-      console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
       this.isEn = newValue.state.app.lang === 'en-US'
     }
   },
   mounted() {
-    console.log(this.$store.state.app.lang )
+    console.log(this.$store.state.app.lang)
   }
 }
 </script>
@@ -67,6 +69,7 @@ export default {
 .en-bg {
   background: url(../assets/banner-en.png) no-repeat 50%;
 }
+
 .home-banner {
   width: 100%;
   height: 410px;
@@ -96,7 +99,7 @@ export default {
   cursor: pointer;
 }
 
-#search{
+#search {
   width: 560px;
 }
 </style>

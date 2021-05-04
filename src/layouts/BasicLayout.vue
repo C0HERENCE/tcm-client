@@ -1,11 +1,13 @@
 <template>
-  <div id="app">
+  <div id="basic">
     <div id="content">
       <HeaderBar></HeaderBar>
-      <router-view/>
+      <div>
+        <router-view/>
+      </div>
     </div>
     <footer id="footer" class="small">
-      中医药知识科普平台 ©2021
+      {{$t('layouts.basicLayout.footer')}}
     </footer>
   </div>
 </template>
@@ -21,7 +23,7 @@ export default {
 </script>
 
 <style scoped>
-#app {
+#basic {
   min-height: 100vh;
   position: relative;
 }

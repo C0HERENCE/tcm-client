@@ -7,7 +7,7 @@
       <a-menu v-model="current" mode="horizontal" class="menu-list" v-on:click="handleClick">
         <a-menu-item v-for="t in tabs" :key="t.key">
           <a-icon type="mail"/>
-          {{t.text}}
+          {{ t.text }}
         </a-menu-item>
       </a-menu>
     </b-row>
@@ -19,44 +19,52 @@
 export default {
   name: "Index",
   data() {
-
     return {
       current: [this.$route.name],
       tabs: [
         {
           key: 'Herb',
-          text: '中药材知识库',
+          text: '中药材 · Herb',
           icon: 'mail'
         },
         {
           key: 'Prescription',
-          text: '药方知识库',
+          text: '药方 · Prescription',
           icon: 'mail'
         },
         {
           key: 'Symptom',
-          text: '疾病诊疗知识库',
+          text: '疾病诊疗 · Disease',
           icon: 'mail'
         },
       ],
-      coverImg: require("../../assets/topbanner-herb.png")
+      coverImg: this.$store.state.app.lang === 'zh-CN' ? require("@/assets/topbanner-herb-zh.png") : require("@/assets/topbanner-herb-en.png")
     }
   },
   methods: {
     handleClick({key}) {
       if (this.$route.name !== key) {
-        this.$router.push(key)
+        this.$router.push({name: key})
       }
     }
   },
   watch: {
     $route(newValue) {
       const imgArray = {
-        Herb: require("../../assets/topbanner-herb.png"),
-        Prescription: require("../../assets/topbanner-prescription.jpg"),
-        Symptom: require("../../assets/topbanner-symptom.png"),
+        Herb: {
+          "zh-CN": require("@/assets/topbanner-herb-zh.png"),
+          "en-US": require("@/assets/topbanner-herb-en.png"),
+        },
+        Prescription: {
+          "zh-CN": require("@/assets/topbanner-prescription-zh.jpg"),
+          "en-US": require("@/assets/topbanner-prescription-en.png"),
+        },
+        Symptom: {
+          "zh-CN": require("@/assets/topbanner-symptom-zh.png"),
+          "en-US": require("@/assets/topbanner-disease-en.png"),
+        }
       };
-      this.coverImg = imgArray[newValue.name]
+      this.coverImg = imgArray[newValue.meta.cover][this.$store.state.app.lang]
     }
   },
 }

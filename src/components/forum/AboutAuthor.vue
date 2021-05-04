@@ -1,16 +1,32 @@
 <template>
   <a-card>
-    <a-card-meta title="关于作者">
-      <p slot="title">ccwisp</p>
-      <a-avatar slot="avatar" src="http://himg.bdimg.com/sys/portrait/item/699a7468654170706c655f4d794579658f35.jpg"/>
-      <span slot="description">还没有个人介绍</span>
+    <a-card-meta v-if="author !== null">
+      <p slot="title">{{author.nickname}}</p>
+      <a-avatar slot="avatar" :src="author.avatar"/>
+      <span slot="description">{{author.intro !== "" ? author.intro : '-'}}</span>
     </a-card-meta>
   </a-card>
 </template>
 
 <script>
+import {getAuthorByThreadId} from "@/api/forum";
+
 export default {
-name: "AboutAuthor"
+name: "AboutAuthor",
+  data() {
+    return {
+      author: null
+    }
+  },
+  mounted() {
+    getAuthorByThreadId(this.$route.params.id).then(res => {
+      if (res.data == null) {
+        this.author = res.data;
+        return;
+      }
+      this.author = res.data;
+    })
+  }
 }
 </script>
 
