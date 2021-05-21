@@ -6,6 +6,7 @@ export default {
             'kb':'Knowledge',
             'category':'Discussion',
             'uc': 'Personal Space',
+            'ad': 'Admin Page',
             'q': 'Exit Login',
             'login': 'Sign in',
             'register': 'Register',
@@ -82,6 +83,8 @@ export default {
             'category': 'Please select category',
             'topic': 'Input #+‘keywords’ here to mention tcm knowledge',
             'publish': 'Publish',
+            'agg': 'Agree',
+            'dis': 'Disagree',
         },
         thread: {
             'last-edit': 'last edit at',

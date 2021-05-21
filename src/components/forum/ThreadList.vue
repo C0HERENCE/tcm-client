@@ -1,5 +1,5 @@
 <template>
-  <a-list v-if="threadData!=null" item-layout="vertical" size="large" :data-source="threadData" :loading="loading">
+  <a-list v-if="threadData!=null" :pagination="{pageSize: 5}" item-layout="vertical" size="large" :data-source="threadData" :loading="loading">
     <a-list-item slot="renderItem" key="item.thread.title" slot-scope="item">
       <div slot="actions">
         <a-tooltip class="ml-3" :title="$t('views.forum.fav')">

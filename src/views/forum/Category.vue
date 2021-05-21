@@ -7,7 +7,15 @@
       <a-row>
         <a-col :lg="24" :sm="12">
           <a-input-search v-model="keyword" :placeholder="$t('views.forum.search-tip')"
-                          :enter-button="$t('views.forum.search')" size="large" class="my-2" @search="onSearch"/>
+                          :enter-button="$t('views.forum.search')" size="large" class="my-2" @search="onSearch">
+            <a-tooltip slot="suffix">
+              <span slot="title">
+                可以在关键词前添加以下前缀来缩小搜索范围:
+                <p>content: 正文, categoryTitle: 版块, title: 标题, nickname: 发布者, topic: 提及的科普条目 </p>
+              </span>
+              <a-icon type="info-circle" style="color: rgba(0,0,0,.45)" />
+            </a-tooltip>
+          </a-input-search>
         </a-col>
       </a-row>
 

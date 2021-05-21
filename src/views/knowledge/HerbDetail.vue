@@ -50,7 +50,7 @@
               <h3 slot="title" :id="k">{{ herbString(k) }}</h3>
               <div v-for="(v2, k2) in v" :key="k2">
                 <template v-if="!!v2 && k2!=='show'">
-                  <h4 :id="k2">{{ herbString(k2) }} {{ k2.toUpperCase() }} </h4>
+                  <h4 :id="k2">{{ herbString(k2) }}</h4>
                   <p v-html="v2"></p>
                 </template>
                 <hr>
@@ -64,7 +64,7 @@
               <template v-if="currentAnchor !== '' && currentAnchor === '#'+k && k!=='0' && k!=='show'">
                 <a-anchor-link v-for="(v2, k2) in v" :key="k2" :href="'#'+k2">
                  <span slot="title" v-if="v2 && k2!=='show'">
-                  {{ herbString(k2) + ' ' + k2.toUpperCase() }}
+                  {{ herbString(k2) }}
                 </span>
                 </a-anchor-link>
               </template>

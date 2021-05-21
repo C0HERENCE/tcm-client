@@ -4,7 +4,7 @@
       <a href="#" class="name" style="color: rgb(45, 45, 45);">
 
         <a :href="searchedItem.url" target="_blank">
-          <span style="color: rgb(3, 102, 242);text-decoration:underline" v-html="searchedItem.nameHigh">
+          <span style="color: rgb(3, 102, 242);text-decoration:underline" v-html="searchedItem.name">
           </span>
         </a>
       </a>
@@ -13,8 +13,7 @@
       <div class="content_img">
         <img :src="searchedItem.pic" alt=""></div>
       <div class="content_text">
-        <div class="text">
-          {{searchedItem.intro}}
+        <div class="text" v-html="searchedItem.intro">
         </div>
       </div>
     </div>
