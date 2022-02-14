@@ -23,8 +23,7 @@ export function advancedSearch(
             keywordFields: keywordFields,
             page: page,
             size: size,
-            indices: indices,
-            highlight: true
+            indices: indices
         }
     })
 }
@@ -39,8 +38,7 @@ export function miniSearchName(indices, keyword, size) {
             keywordFields: kef,
             page: 0,
             size: size,
-            indices: indices,
-            highlight: false
+            indices: indices
         }
     })
 }

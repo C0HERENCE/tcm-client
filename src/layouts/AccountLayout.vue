@@ -45,6 +45,10 @@ export default {
           key: 'Published',
           tab: this.$t('layouts.accountLayout.published')
         },
+        // {
+        //   key: 'History',
+        //   tab: this.$t('layouts.accountLayout.history')
+        // },
         {
           key: 'Setting',
           tab: this.$t('layouts.accountLayout.setting')

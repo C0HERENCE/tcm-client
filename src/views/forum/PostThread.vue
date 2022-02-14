@@ -16,7 +16,7 @@
                     :prefix="['#']" v-model="mentioned">
           <a-mentions-option v-for="({id, name, pic}) in miniResult" :key="id+name" :value="name">
             <img :src="pic" :alt="pic" style="width: 20px; margin-right: 8px;">
-            <span v-html="name"></span>
+            <span>{{ name }}</span>
           </a-mentions-option>
         </a-mentions>
       </a-col>

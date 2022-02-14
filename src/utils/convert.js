@@ -547,14 +547,13 @@ export function prescriptionConvert(es) {
 }
 
 export function searchResultConvert(s) {
-    console.log(s)
     if (s.type === "disease") {
         return {
             id: s.id,
             pic: s.thumbnail ? s.thumbnail : require('../assets/thumbzz.jpg'),
             name: s.chineseName,
             englishName: s.englishName,
-            // nameHigh: s.highlighter.chineseName ? s.highlighter.chineseName[0] : s.chineseName + "- 疾病症状",
+            nameHigh: s.highlighter.chineseName ? s.highlighter.chineseName[0] : s.chineseName + "- 疾病症状",
             intro: s.introduction,
             url: "/knowledge/symptom/" + s.id
         }
@@ -564,7 +563,7 @@ export function searchResultConvert(s) {
             pic: s.thumb ? s.thumb : require('../assets/thumbzyc.jpg'),
             name: s.name,
             englishName: s.name,
-            // nameHigh: s.highlighter.name ? s.highlighter.name[0] : s.name + "- 中药方剂",
+            nameHigh: s.highlighter.name ? s.highlighter.name[0] : s.name + "- 中药方剂",
             intro: s.intro,
             url: "/knowledge/prescription/" + s.id
         }
@@ -574,7 +573,7 @@ export function searchResultConvert(s) {
             id: s.id,
             pic: s.picturepath ? s.picturepath : require('../assets/thumbzyc.jpg'),
             name: s.chinesename,
-            // nameHigh: s.highlighter.chinesename ? s.highlighter.chinesename[0] : s.chinesename + "- 中药材",
+            nameHigh: s.highlighter.chinesename ? s.highlighter.chinesename[0] : s.chinesename + "- 中药材",
             intro: s.intro,
             url: "/knowledge/herb/" + s.id
 

@@ -3,7 +3,7 @@
     <a-list :data-source="data" :pagination="pagination">
       <a-list-item slot="renderItem" slot-scope="i">
         <a slot="actions" @click="deleteThread(i)">{{ i.enabled === 1 ? '删除' : '恢复' }}</a>
-        <a-button type="link" slot="actions" @click="showComments(i)">查看评论</a-button>
+        <a slot="actions">查看评论</a>
         <router-link :to="'/forum/thread/' + i.id" slot="actions">前往查看</router-link>
         <a-list-item-meta>
           <a-avatar slot="avatar" :src="i.avatar"></a-avatar>
@@ -16,38 +16,21 @@
             <a-tag :color="colors[i.typeid % colors.length]" class="my-1">
                 {{ i.typename }}
             </a-tag>
-            <span class="mx-2">发布于 {{ i.createtime }}</span>
-            <span>编辑于 {{ i.modifytime }}</span>
+            <span class="mx-2">发布于 {{i.createtime}}</span>
+            <span>编辑于 {{i.modifytime}}</span>
           </span>
         </a-list-item-meta>
-        {{ i.content.substr(0, 40) + '...' }}
+        {{i.content.substr(0, 40) + '...'}}
 
       </a-list-item>
     </a-list>
-    <a-modal v-model="visible" title="评论" @ok="handleOk">
-      <a-spin v-if="reply==={}"></a-spin>
-      <a-list :data-source="reply" :pagination="{pageSize: 5}">
-        <a-list-item slot="renderItem" slot-scope="i">
-          <a slot="actions" @click="deleteComment(i)">{{ i.fmsComment.enabled === 1 ? '删除' : '恢复' }}</a>
-          <a-list-item-meta>
-            <a-avatar slot="avatar" :src="i.avatar"></a-avatar>
-            <span slot="title">
-              <span>{{ i.nickname }}</span>
-              <span class="mx-2">发布于 {{ i.fmsComment.createtime }}</span>
-            </span>
-            <span slot="description">
-              {{i.fmsComment.content}}
-            </span>
-          </a-list-item-meta>
-        </a-list-item>
-      </a-list>
-    </a-modal>
+    <!--    {{ data }}-->
   </div>
 </template>
 
 <script>
 const colors = ["pink", "green", "red", "purple", "blue", "yellow", "grey", "cyan", "black", "orange"]
-import {getAllThreads, deleteThread, getCommentsByThreadId, deleteComment} from "@/api/admin";
+import {getAllThreads, deleteThread} from "@/api/admin";
 
 export default {
   name: "ThreadInfo",
@@ -61,9 +44,6 @@ export default {
         },
         pageSize: 5,
       },
-      current: {},
-      visible: false,
-      reply: {}
     }
   },
   methods: {
@@ -76,34 +56,11 @@ export default {
       let d = 1
       if (i.enabled === 1)
         d = 0;
-      deleteThread(i.id, d).then(res => {
+      deleteThread(i.id, d).then(res=>{
         this.$message.info(res.message)
         if (res.status === 200) {
           i.enabled = d;
         }
-      })
-    },
-    deleteComment(i) {
-      let d = 1
-      if (i.fmsComment.enabled === 1)
-        d = 0;
-      deleteComment(i.fmsComment.id, d).then(res => {
-        this.$message.info(res.message)
-        if (res.status === 200) {
-          i.fmsComment.enabled = d;
-        }
-      })
-    },
-    handleOk() {
-      this.visible = false;
-      this.current = {}
-    },
-    showComments(i) {
-      this.visible = true;
-      this.current = i;
-      getCommentsByThreadId(this.current.id).then(res => {
-        console.log(res.data)
-        this.reply = res.data
       })
     }
   },

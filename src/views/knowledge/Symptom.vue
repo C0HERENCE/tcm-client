@@ -10,7 +10,7 @@
       <a-card>
         <a-radio-group v-model="selectedInitial" @change="onInitialChange">
           <a-radio value="All">
-            {{$t('views.forum.all')}}
+            全部
           </a-radio>
           <a-radio v-for="i in Object.keys(selectedCategory.mapped)" :key="i" :value="i">{{i}}</a-radio>
         </a-radio-group>
@@ -31,7 +31,7 @@
                   <a-list slot="content" :loading="loading">
                     <a-list-item v-for="mini in miniResult" :key="mini.id">
                       <a-list-item-meta :description="mini.intro.substr(0,20)+'...'">
-                        <router-link slot="title" :to="mini.url"><span v-html="mini.name"></span></router-link>
+                        <router-link slot="title" :to="mini.url">{{ mini.name }}</router-link>
                         <a-avatar slot="avatar" :src="mini.pic"/>
                       </a-list-item-meta>
                     </a-list-item>

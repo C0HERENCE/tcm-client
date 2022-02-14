@@ -96,7 +96,6 @@ export default {
     },
   },
   mounted() {
-    console.log("x")
     getPersonalInfo().then(res => {
       this.personalInfo = res.data
       this.$emit("personalInfoChange", {email: res.data.email, nickname: res.data.nickname, avatar: res.data.avatar})

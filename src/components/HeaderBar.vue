@@ -31,9 +31,6 @@
                 <a-menu-item>
                   <router-link :to="{name: 'Profile'}">{{ $t('views.components.uc') }}</router-link>
                 </a-menu-item>
-                <a-menu-item v-if="$store.state.user.isAdmin">
-                  <router-link to="/admin">{{ $t('views.components.ad') }}</router-link>
-                </a-menu-item>
                 <a-menu-item>
                   <a href="javascript:;" @click="logout">{{ $t('views.components.q') }}</a>
                 </a-menu-item>

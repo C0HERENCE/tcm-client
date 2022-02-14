@@ -7,15 +7,6 @@
       <a-form-item>
         <a-button @click="handleSearch"> <a-icon type="search"></a-icon>筛查</a-button>
       </a-form-item>
-      <a-form-item>
-        <a-upload name="file" :multiple="false" action="/api/admin/knowledge2?esindex=herbs_info_v2"
-                  :show-upload-list="false" @change="batchAdd">
-          <div class="ant-upload-preview">
-            <a-icon type="cloud-upload-o" class="upload-icon"/>
-            添加新内容
-          </div>
-        </a-upload>
-      </a-form-item>
     </a-form>
     <a-table :loading="loading" @change="handleTableChange" :columns="columns" :data-source="data"
              :pagination="pagination" rowKey="id">
@@ -24,11 +15,6 @@
       </template>
       <template slot="Edit" scope="v,record">
         <a-button @click="edit(record)">编辑详情</a-button>
-      </template>
-      <template slot="Delete" scope="v,record">
-        <a-popconfirm title="确定要删除这个科普内容吗？（该操作不可逆）" @confirm="() => deleteEs(record)">
-          <a-button>删除</a-button>
-        </a-popconfirm>
       </template>
     </a-table>
     <a-drawer height="100%" placement="bottom" :closable="true" :visible="drawer" @close="drawer=false">
@@ -112,19 +98,13 @@ const diseaseData = {
   plantpestcontrol: '病虫防治',
   plantmajorvariant: '主要变种',
 }
-import {getAllKnowledge, advancedSearch, updateEs, deleteEs} from "@/api/admin";
+import {getAllKnowledge, advancedSearch, updateEs} from "@/api/admin";
 import CKEditor from "@/components/CKEditor";
 
 export default {
   name: "HerbsInfo",
   components: {CKEditor},
   methods: {
-    batchAdd(info) {
-      if (info.file.status === 'done') {
-        if (info.file.response.status === 200)
-          this.$message.success(info.file.response.message);
-      }
-    },
     saveChange() {
       console.log(this.currentRecord.id, this.selectedField, this.editText);
       updateEs("herbs_info_v2", this.currentRecord.id, this.selectedField, this.editText).then(res => {
@@ -137,14 +117,6 @@ export default {
       console.log(record)
       this.selectedField = 'intro'
       this.editText = this.currentRecord[this.selectedField];
-    },
-    deleteEs(record) {
-      deleteEs("prescriptions", record.id).then(res => {
-        this.$message.info(res.message);
-        if (res.status===200) {
-          this.handleSearch();
-        }
-      })
     },
     handleTableChange(pagination) {
       this.getKnowledge(pagination.current, pagination.pageSize)
@@ -190,8 +162,7 @@ export default {
         {dataIndex: "dosage", title: "用法用量",},
         {dataIndex: "func", title: "功效",},
         {dataIndex: "mainattend", title: "功能主治",},
-        {key:"编辑", dataIndex:'id', scopedSlots:{customRender:'Edit'}},
-        {key:"删除", dataIndex:'id', scopedSlots:{customRender:'Delete'}}
+        {key:"编辑", dataIndex:'id', scopedSlots:{customRender:'Edit'}}
       ],
       loading: false,
       drawer: false,

@@ -5,9 +5,7 @@ import {ACCESS_TOKEN} from "@/store/mutation-types";
 export default {
     state: {
         token: storage.get(ACCESS_TOKEN),
-        username: storage.get("USER_NAME"),
-        roles: storage.get("ADMIN_ROLES"),
-        isAdmin: storage.get("IS_ADMIN")
+        username: storage.get("USER_NAME")
     },
 
     getters: {
@@ -17,10 +15,6 @@ export default {
     },
 
     mutations: {
-        IS_ADMIN: (state, param) => {
-            state.isAdmin = param;
-            storage.set("IS_ADMIN", param)
-        },
         SET_TOKEN: (state, param) => {
             if (param !== null) {
                 state.token = param.token;
@@ -34,10 +28,6 @@ export default {
                 storage.remove(ACCESS_TOKEN);
             }
         },
-        SET_ROLES: (state, roles) => {
-            storage.set("ADMIN_ROLES", roles)
-            state.roles = roles;
-        }
     },
 
     actions: {

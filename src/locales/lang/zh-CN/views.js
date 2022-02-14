@@ -6,7 +6,6 @@ export default {
             'kb':'知识库',
             'category':'交流问答',
             'uc': '个人中心',
-            'ad': '后台管理',
             'q': '退出登录',
             'login': '登录',
             'register': '注册',
@@ -83,8 +82,6 @@ export default {
             'category': '请选择板块标题',
             'topic': '可在此输入‘#关键词’提及中医药知识',
             'publish': '发布',
-            'agg': '赞同',
-            'dis': '反对',
         },
         thread: {
             'last-edit': '最后编辑于',

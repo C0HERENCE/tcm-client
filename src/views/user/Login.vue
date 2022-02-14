@@ -65,6 +65,7 @@
 
 <script>
 import {mapActions} from 'vuex'
+import {buildAdminRoutes} from '@/router/admin'
 
 export default {
   data() {
@@ -116,14 +117,11 @@ export default {
             .then((res) => {
               if (res.status === 200) {
                 if (res.data.isAdmin) {
-                  this.$store.commit("IS_ADMIN", true)
-                  this.$store.commit("SET_ROLES", res.data.roles)
-                  document.location='/admin'
+                  buildAdminRoutes(res.data.roles)
+                  this.$router.push({path: '/admin'})
                 }
-                else {
-                  document.location = "/"
-                  this.$store.commit("IS_ADMIN", false)
-                }
+                else
+                  this.$router.push({path: '/'})
                 // 延迟 1 秒显示欢迎信息
                 setTimeout(() => {
                   this.$notification.success({

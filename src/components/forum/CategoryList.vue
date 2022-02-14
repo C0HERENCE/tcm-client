@@ -1,7 +1,7 @@
 <template>
   <a-menu mode="inline" :selected-keys="[current]" @click="handleClick">
     <a-menu-item v-for="c in categories" :key="c.id">
-      {{ $store.state.app.lang === 'zh-CN'? c.title : c.english}}
+      {{ c.title }}
     </a-menu-item>
   </a-menu>
 </template>
